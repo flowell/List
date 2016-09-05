@@ -1,0 +1,28 @@
+template <typename E>
+class List {
+private:
+	void operator =(const List&) {}         //防止复制构造
+	List(const List&) {}            		//防止复制构造
+public:
+	List() {}                       		//默认空构造
+	virtual ~List() {}              		//基类析构函数
+	
+	virtual void clear() = 0;       		//纯虚函数，清空链表
+	
+	virtual void insert(const E& item) = 0; //插入到当前下标的位置
+	virtual void append(const E& item) = 0; //插入到最后一位
+	
+	virtual E remove() = 0;                 //移除当前下标元素并传值返回
+	
+	virtual void moveToStart() = 0;         //将当前下标移至头部
+	virtual void moveToEnd() = 0;           //将当前下标移至尾部
+	virtual void moveToPos(int pos) = 0;    //将当前下标移至指定位置
+	
+	virtual void next() = 0;
+	virtual void prev() = 0;
+	
+	virtual int length() const = 0;         //返回链表长度
+	virtual int currPos() const = 0;        //返回当前下标
+	
+	virtual const E& getValue() const = 0;
+};
