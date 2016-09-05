@@ -1,0 +1,149 @@
+#include "List ADT.h"
+
+#include <cassert>
+
+
+template <typename E>
+class AList:public List<E>  {
+private:
+
+	int listSize;
+	int curr;
+	E* listArray;
+
+    void resize(int newSize);           //参数是为了方便增长数组或缩短数组时使用同一个函数；
+public:
+	  int maxSize;
+	AList(int defaultSize = 1);
+	~AList();
+	
+	void clear();
+	
+	void insert(const E& it);
+	void append(const E& it);
+	
+	E remove();
+	
+	void moveToStart();
+	void moveToEnd();
+	void moveToPos(int pos);
+	
+	void prev();
+	void next();
+	
+	int length()const;
+	int currPos()const;
+	
+	const E& getValue() const;
+};
+
+
+/*
+----------------------------------------------------------------------------------
+以下为实现
+*/
+
+template <typename E>
+void AList<E>::resize(int newSize) {                                 //调整数组大小
+	E* temp = new E[newSize];
+	for(int i = 0; i < listSize; ++i)
+		temp[i] = listArray[i];
+	listArray = temp;
+	maxSize = newSize;
+}
+
+template <typename E>
+AList<E>::AList(int defaultSize) {
+	maxSize = defaultSize;
+	listSize = 0;
+	curr = 0;
+	listArray = new E[maxSize];
+}
+
+template <typename E>
+AList<E>::~AList() {
+	delete [] listArray;
+}
+
+template <typename E>
+void AList<E>::clear() {
+	//delete [] listArray;                                       //这两句都没必要！！！
+	listSize = 0;
+	curr = 0;
+	//listArray = new E[maxSize];
+}
+
+template <typename E>                                            //在当前位置的后面插入，插入后，curr在插入元素的位置，其余元素后移
+void AList<E>::insert(const E& it) {
+	if (listSize == maxSize)
+		resize(2 * listSize);
+	for(int i = listSize; i > curr; --i) {
+		listArray[i] = listArray[i-1];                          //将curr位置后面的所有元素后移一位;
+	}
+	listArray[curr] = it;
+	++listSize;
+}
+
+template <typename E>
+void AList<E>::append(const E& it) {
+	if (listSize == maxSize)
+		resize(2 * maxSize);
+	listArray[listSize++] = it;
+}
+
+template <typename E>
+E AList<E>::remove() {                                            //注意remove之后curr的位置！！
+	assert((curr >= 0) && (curr < listSize));
+	E it = listArray[curr];
+	for(int i = curr; i < listSize - 1; ++i) {
+		listArray[i] = listArray[i+1];
+	}
+	--listSize;
+	if(listSize == maxSize / 4)
+		resize(maxSize / 2);
+	return it;
+}
+
+template <typename E>
+void AList<E>::moveToStart() {
+	curr = 0;
+}
+
+template <typename E>
+void AList<E>::moveToEnd() {                                       //注意curr == listSize！！ 这已经越界了
+	curr = listSize;
+}
+
+template <typename E>
+void AList<E>::moveToPos(int pos) {
+	assert((pos >= 0) && (pos < listSize));
+	curr = pos;
+}
+
+template <typename E>
+int AList<E>::currPos() const {
+	return curr;
+}
+
+template <typename E>
+int AList<E>::length() const {
+	return listSize;
+}
+
+template <typename E>
+void AList<E>::next() {
+	if (curr < listSize)
+		++curr;
+}
+
+template <typename E>
+void AList<E>::prev() {
+	if (curr > 0)
+		--curr;
+}
+
+template <typename E>
+const E& AList<E>::getValue()const {
+	assert((curr >=0) && (curr < listSize));
+	return listArray[curr];
+}
