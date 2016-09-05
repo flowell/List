@@ -1,0 +1,64 @@
+#include "List ADT.h"
+
+//-----------------------------------------------------------
+//结点类的定义和声明
+template <typename E>
+class Link {
+public:
+	E element;
+	Link* next;
+
+	Link(const E& elemval, Link* nextval = NULL);
+	Link(Link* nextval = NULL);
+};
+
+template <typename E>
+Link<E>::Link(const E& elemval, Link* nextval) {
+	element = elemval;
+	next = nextval;
+}
+
+template <typename E>
+Link<E>::Link(Link * nextval) {
+	next = nextval;
+}
+//----------------------------------------------------------------
+
+
+
+
+
+//---------------------------------------------------------------------
+template <typename E>
+class LList : public List<E> {
+private:
+	Link<E>* head;
+	Link<E>* tail;
+	Link<E>* curr;
+	int cnt;
+
+	void init();
+	void removeall();
+
+public:
+	LList(int size = defaultSize);
+		void clear();
+	
+	void insert(const E& it);
+	void append(const E& it);
+	
+	E remove();
+	
+	void moveToStart();
+	void moveToEnd();
+	void moveToPos(int pos);
+	
+	void prev();
+	void next();
+	
+	int length()const;
+	int currPos()const;
+	
+	const E& getValue() const;
+};
+//待续未完
