@@ -1,0 +1,61 @@
+template <typename E>
+class AStack : public Stack<E> {
+private:
+	int maxSize;
+	int top;
+	E* listArray;
+public:
+	AStack(int size = 1);
+	~AStack();
+	
+	void clear();
+	
+	void push(const E& it);
+	void pop();
+	
+	int length() const;
+	
+	const E& topValue() const;
+};
+
+
+template <typename E>
+AStack<E>::AStack(int size) {
+	maxSize = size;
+	top = 0;
+	listArray = new E[size];
+}
+
+template <typename E>
+AStack<E>::~AStack() {
+	delete [] listArray;
+}
+
+template <typename E>
+void AStack<E>::clear() {
+	top = 0;
+}
+
+template <typename E>
+void AStack<E>::push(const E& it) {
+	assert(top != maxSize);
+	listArray[top++] = it;
+}
+
+template <typename E>
+void AStack<E>::pop() {
+	assert(top ~= 0);
+	return listArray[top--];
+}
+
+template <typename E>
+int AStack<E>::length() const {
+	return top;
+}
+
+
+template <typename E>
+const E& topValue() const {
+	assert(top != 0);
+	return listArray[top-1];
+}
