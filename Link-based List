@@ -1,7 +1,63 @@
 #include "List ADT.h"
+//------------------------------------------------
+// freelist version
+//********************************************** 
+
+template <typename E>
+class Link {
+public:
+	E element;
+	Link* next;
+
+	Link(const E& elemval, Link* nextval = NULL);
+	Link(Link* nextval = NULL);
+	
+	void* operator new(int size);
+	void operator delete(void* ptr);
+private:
+	static Link<E>* freelist;
+};
+
+template <typename E>
+Link<E>::Link(const E& elemval, Link* nextval) {
+	element = elemval;
+	next = nextval;
+}
+
+template <typename E>
+Link<E>::Link(Link * nextval) {
+	next = nextval;
+}
+
+template <typename E>
+void* Link<E>::operator new(int size) {
+	if (freelist == NULL)
+	return ::new LINK<E>;
+	else {
+		Link<E>* temp = freelist;
+		freelist = freelist->next;
+		return temp;
+	}
+}
+
+template <typename E>
+void Link<E>::delete(void* ptr) {
+	((Link<E>*)ptr)->next = freelist;
+	freelist = (Link<E>*)ptr;
+}
+
+
+//**********************************************************************************
+//----------------------------------------------------------------------------------
+
+
+
+
 
 //-----------------------------------------------------------
-//结点类的定义和声明
+//结点类的定义和声明 common version
+//***********************************************************
+/*
 template <typename E>
 class Link {
 public:
@@ -22,6 +78,8 @@ template <typename E>
 Link<E>::Link(Link * nextval) {
 	next = nextval;
 }
+*/
+//*****************************************************************
 //----------------------------------------------------------------
 
 
@@ -29,6 +87,7 @@ Link<E>::Link(Link * nextval) {
 
 
 //---------------------------------------------------------------------
+//**********************************************************************
 template <typename E>
 class LList : public List<E> {
 private:
@@ -73,9 +132,9 @@ void LList<E>::init() {
 }
 
 template <typename E>
-void LList<E>::removeall() {
+void LList<E>::removeall() {                            //因为数据结构都是建立在堆上的，所以要手动释放，不像Array-based List 
 	while(head != NULL) {
-		curr = head;
+		curr = head; 
 		head = head->next;
 		delete curr;
 	}
@@ -92,7 +151,7 @@ Llist<E>::~LList() {
 }
 
 template <typename E>
-void LList<E>::clear() {               //待续未完，此处应该可以优化；
+void LList<E>::clear() {              
 	removeall();
 	init();
 }
