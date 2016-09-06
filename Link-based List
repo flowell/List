@@ -19,6 +19,10 @@ private:
 };
 
 template <typename E>
+Link<E>* Link<E>::freelist = NULL;
+
+
+template <typename E>
 Link<E>::Link(const E& elemval, Link* nextval) {
 	element = elemval;
 	next = nextval;
