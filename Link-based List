@@ -95,8 +95,8 @@ Link<E>::Link(Link<E> * nextval) {
 template <typename E>
 class LList : public List<E> {
 private:
-	Link<E>* head;
-	Link<E>* tail;
+	Link<E>* head;      //head points to nothing
+	Link<E>* tail;      //tail points to the last element in the list.
 	Link<E>* curr;
 	int cnt;
 
