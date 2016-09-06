@@ -61,4 +61,124 @@ public:
 	
 	const E& getValue() const;
 };
-//待续未完
+
+//---------------------------------------------------------------------------
+//implementation of Link-based List
+//***************************************************************************
+
+template <typename E>
+void LList<E>::init() {
+	curr = tail = head = new Link<E>;
+	cnt = 0;
+}
+
+template <typename E>
+void LList<E>::removeall() {
+	while(head != NULL) {
+		curr = head;
+		head = head->next;
+		delete curr;
+	}
+}
+
+template <typename E>
+LList<E>::LList(int size = defalutSize) {
+	init();
+}
+
+template <typename E>
+Llist<E>::~LList() {
+	removeall();
+}
+
+template <typename E>
+void LList<E>::clear() {               //待续未完，此处应该可以优化；
+	removeall();
+	init();
+}
+
+template <typename E>
+void LList<E>::insert(cosnt E& it) {
+	curr->next = new Link<E>(it, curr->next);
+	if (tail == curr)
+		tail = curr->next;
+	++cnt;
+}
+
+template <typename E>
+void LList<E>::append(const E& it) {
+	tail->next = new Link<E>;
+	tail = tail->next;
+	++cnt;
+}
+
+template <typename E>                          //操作的对象为curr的下一个节点
+E LList<E>::remove() {
+	assert(curr->next != NULL);
+	E it = curr->next->element;
+	Link<E>* ltemp = curr->next;
+	if (tail == curr->next)                      //reset the tail
+		tail = curr; 
+	curr->next = curr->next->next;
+	delete ltemp;
+	--cnt;
+	return it;
+}
+
+template <typename E>
+void LList<E>::moveToStart() {
+	curr = head;
+}
+
+template <typename E>
+void LList<E>::moveToEnd() {
+	curr = tail;                              //attention!!此时curr->next == NULL!!!
+}
+
+template <typename E>
+void LList<E>::moveToPos(int pos) {
+	assert ( (pos >= 0) && (pos <= cnt) )       //when pos == cnt, it equates pos == tail; when pos == 0, curr == head;
+	curr = head;
+	for (int i = 0; i < pos; ++i)
+		curr = curr->next;
+}
+template <typename E>
+void LList<E>::next() {
+	if(curr != tail)
+		curr = curr->next;
+}
+
+template <typename E>                         //cost time: θn
+void LList<E>::prev() {
+	if (curr == head)
+		throw "curr is out of range.";
+	Link<E>* temp = head;
+	while (temp->next != curr)
+		temp = temp->next;
+	curr = temp;
+}
+
+template <typename E>
+int LList<E>::length() const {
+	return cnt;
+}
+
+template <typename E>
+int LList<E>::currPos() const {
+	Link<E>* temp = head;
+	int cout = 0;
+	while( temp != curr) {
+		temp = temp->next;
+		++count;
+	}
+	return count;
+}
+
+template <typename E>
+const E& LList<E>::getValue()const {
+	assert(curr->next != NULL);
+	return curr->next->element;
+}
+
+//******************************************************************************************************
+//------------------------------------------------------------------------------------------------------
