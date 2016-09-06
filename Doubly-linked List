@@ -1,0 +1,187 @@
+#include "List ADT"
+
+//------------------------------------------------------------------------
+//************************************************************************
+template <typename E>
+class Link {
+private:
+
+public:
+	E element;
+	Link* next;
+	Link* prev;
+	
+	Link(const E& it, Link* prevp, Link* nextp);
+	Link(Link* prevp = NULL, Link* nextp = NULL);	
+};
+
+template <typename E>
+Link<E>::Link(const E& it, Link* prevp, Link* nextp) {
+	element = it;
+	prev = prevp;
+	next = nextp;
+}
+
+template <typename E>
+Link<E>::Link(Link<E>* prevp, Link<E>* nextp) {
+	prev = prevp;
+	next = nextp;
+}
+
+//**************************************************************************
+//--------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------
+//**************************************************************************
+
+template <typename E>
+class DLList : public List<E> {
+private:
+	Link<E>* head;
+	Link<E>* tail;
+	Link<E>* curr;
+	int cnt;
+
+	void init();
+	void removeall();
+
+public:
+	DLList();
+	~DLList();
+	void clear();
+	
+	void insert(const E& it);
+	void append(const E& it);
+	
+	E remove();
+	
+	void moveToStart();
+	void moveToEnd();
+	void moveToPos(int pos);
+	
+	void prev();
+	void next();
+	
+	int length()const;
+	int currPos()const;
+	
+	const E& getValue() const;
+};
+
+//---------------------------------------------------------------------------
+//implementation of Link-based List
+//***************************************************************************
+
+template <typename E>
+void DLList<E>::init() {
+	curr = head = new Link<E>;
+	head->next = new Link<E>(head);
+	cnt = 0;
+}
+
+template <typename E>
+void DLList<E>::removeall() {                            //因为数据结构都是建立在堆上的，所以要手动释放，不像Array-based List 
+	while(head != NULL) {
+		curr = head; 
+		head = head->next;
+		delete curr;
+	}
+}
+
+template <typename E>
+LList<E>::DLList() {
+	init();
+}
+
+template <typename E>
+Llist<E>::~DLList() {
+	removeall();
+}
+
+template <typename E>
+void DLList<E>::clear() {              
+	removeall();
+	init();
+}
+
+template <typename E>
+void DLList<E>::insert(cosnt E& it) {
+	curr->next->prev = new Link<E>(it, curr, curr->next);
+	curr->next = curr->next->prev;
+	++cnt;
+}
+
+template <typename E>
+void DLList<E>::append(const E& it) {
+	tail->prev->next = new Link<E>(it, tail->prev, tail);
+	tail->prev = tail->prev->next;
+	++cnt;
+}
+
+template <typename E>                         
+E DLList<E>::remove() {
+	if (curr->next == tail)
+		return NULL;
+	Link<E>* ltemp = curr->next;
+	E* it = ltemp->element;
+	curr->next->next->prev = curr;
+	curr->next = curr->next->next;
+	delete ltemp;
+	--cnt;
+	return it;
+}
+
+template <typename E>
+void DLList<E>::moveToStart() {
+	curr = head;
+}
+
+template <typename E>
+void DLList<E>::moveToEnd() {
+	curr = tail;                            
+}
+
+template <typename E>
+void DLList<E>::moveToPos(int pos) {
+	assert ( (pos >= 0) && (pos <= cnt) )      
+	curr = head;
+	for (int i = 0; i < pos; ++i)
+		curr = curr->next;
+}
+template <typename E>
+void DLList<E>::next() {
+	if(curr != tail)
+		curr = curr->next;
+}
+
+template <typename E>                         
+void DLList<E>::prev() {
+	if(curr != head)
+		curr = curr->prev;
+}
+
+template <typename E>
+int DLList<E>::length() const {
+	return cnt;
+}
+
+template <typename E>
+int DLList<E>::currPos() const {
+	Link<E>* temp = head;
+	int cout = 0;
+	while( temp != curr) {
+		temp = temp->next;
+		++count;
+	}
+	return count;
+}
+
+template <typename E>
+const E& DLList<E>::getValue()const {
+	assert(curr->next != NULL);
+	return curr->next->element;                          //返回的是curr下一个节点的元素！！！ 
+}
+
+//**************************************************************************
+//--------------------------------------------------------------------------
