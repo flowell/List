@@ -240,7 +240,7 @@ int LList<E>::currPos() const {
 template <typename E>
 const E& LList<E>::getValue()const {
 	assert(curr->next != NULL);
-	return curr->next->element;
+	return curr->next->element;            //返回的是curr下一个结点的元素！！！
 }
 
 //******************************************************************************************************
