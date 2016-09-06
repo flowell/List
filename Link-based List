@@ -23,13 +23,13 @@ Link<E>* Link<E>::freelist = NULL;
 
 
 template <typename E>
-Link<E>::Link(const E& elemval, Link* nextval) {
+Link<E>::Link(const E& elemval, Link<E>* nextval) {
 	element = elemval;
 	next = nextval;
 }
 
 template <typename E>
-Link<E>::Link(Link * nextval) {
+Link<E>::Link(Link<E> * nextval) {
 	next = nextval;
 }
 
@@ -73,13 +73,13 @@ public:
 };
 
 template <typename E>
-Link<E>::Link(const E& elemval, Link* nextval) {
+Link<E>::Link(const E& elemval, Link<E>* nextval) {
 	element = elemval;
 	next = nextval;
 }
 
 template <typename E>
-Link<E>::Link(Link * nextval) {
+Link<E>::Link(Link<E> * nextval) {
 	next = nextval;
 }
 */
