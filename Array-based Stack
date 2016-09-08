@@ -55,7 +55,7 @@ int AStack<E>::length() const {
 
 
 template <typename E>
-const E& topValue() const {
+const E& AStack<E>::topValue() const {
 	assert(top != 0);
 	return listArray[top-1];
 }
