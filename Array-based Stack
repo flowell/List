@@ -11,7 +11,7 @@ public:
 	void clear();
 	
 	void push(const E& it);
-	void pop();
+	E pop();
 	
 	int length() const;
 	
@@ -43,8 +43,8 @@ void AStack<E>::push(const E& it) {
 }
 
 template <typename E>
-void AStack<E>::pop() {
-	assert(top ~= 0);
+E AStack<E>::pop() {
+	assert(top != 0);
 	return listArray[top--];
 }
 
