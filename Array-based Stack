@@ -1,3 +1,4 @@
+//未debug！！！！
 template <typename E>
 class AStack : public Stack<E> {
 private:
