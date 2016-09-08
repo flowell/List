@@ -15,9 +15,9 @@ public:
 	void* operator new(int size);
 	void operator delete(void* ptr);
 private:
-	static Link<E>* freelist;
-};
-
+	static Link<E>* freelist;                  //若为list的成员，则是一种list对应一个freelist，
+};	                                           //若为link的成员，则是一种link对应一个freelist。
+                                                   //因为非list也可能使用到link结点，所以为link的成员更为合适！
 template <typename E>
 Link<E>* Link<E>::freelist = NULL;
 
