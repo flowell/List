@@ -1,0 +1,90 @@
+/*
+Implementation of Array-based Queue.
+2016.09.08
+未 debug
+*/
+
+
+
+//---------------------------------------------------------------
+//Declaration of Array-based Queue.
+//***************************************************************
+#define defaultSize = 1
+
+template <typename E>
+class AQueue: public Queue<E> {
+private:
+	int maxSize;
+	int front;
+	int rear;
+	E* listArray;
+public:
+	AQueue(int size = defaultSize);
+	~AQueue();
+	
+	void clear();
+	void enqueue(const E& it);
+	E dequeue();
+	
+	int length() cosnt;                       //书上是virtual？？？
+	
+	const E& frontValue() cosnt;
+};
+
+//***************************************************************
+//End of declaration.
+//---------------------------------------------------------------
+
+
+//---------------------------------------------------------------
+//Definition of Array-based Queue
+//***************************************************************
+template <typename E>
+AQueue<E>::AQueue(int size) {
+	maxSize = size + 1;
+	rear = 0;
+	front = 1;
+	listArray = new E[maxSize];
+}
+
+template <typename E>
+AQueue<E>::~AQueue() {
+	delete [] listArray;
+}
+
+template <typename E>
+void AQueue<E>::clear() {
+	rear = 0;
+	front = 1;
+}
+
+template <typename E>
+void AQueue<E>::enqueue(const E& it) {
+	assert(((rear + 2) % maxSize ) != front );
+	rear = (rear + 1) % maxSize;
+	listArray[rear] = it;
+}
+
+template <typename E>
+E AQueue<E>::dequeue() {
+	assert(length() != 0;
+	E it = listArray[front];
+	front = (front + 1) % maxSize;
+	return it;
+}
+
+template <typename E>
+int AQueue<E>::length() const {                
+	return size;
+}
+
+template <typename E>
+const E& AQueue<E>::frontValue() cosnt {
+	assert( size != 0);
+	return front->next->element;
+}
+
+
+//***************************************************************
+//End of definition.
+//---------------------------------------------------------------
