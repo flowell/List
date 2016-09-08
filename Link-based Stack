@@ -1,0 +1,96 @@
+//未debug
+//--------------------------------------------------
+//**************************************************
+template <typename E>
+class Link {
+public:
+	E element;
+	Link* next;
+
+	Link(const E& elemval, Link* nextval = NULL);
+	Link(Link* nextval = NULL);
+};
+
+template <typename E>
+Link<E>::Link(const E& elemval, Link<E>* nextval) {
+	element = elemval;
+	next = nextval;
+}
+
+template <typename E>
+Link<E>::Link(Link<E> * nextval) {
+	next = nextval;
+}
+
+
+
+
+//---------------------------------------------------
+//***************************************************
+template <typename E>
+class LStack: public Stack<E> {
+private:
+	Link<E>* top;
+	int size;
+public:
+	LStack(int size = 1);
+	~LStack();
+	
+	void clear();
+	void post(const E& it);
+	
+	E pop();
+	
+	int length() const;
+	
+	const E& topValue() const;
+};
+
+template <typename E>
+LStack<E>::LStack(int size) {
+	top = NULL;
+	size = 0;
+}
+
+template <typename E>
+LStack<E>::~LStack() {
+	clear();
+}
+
+template <typename E>
+void LStack<E>::clear() {
+	while (top != NULL) {
+		Link<E>* temp = top;
+		top = top->next;
+		delete temp;
+	}
+	size = 0;
+}
+
+template <typename E>
+void LStack<E>::push(const E& it) {
+	top = new Link<E>(it, top);
+	++size;
+}
+
+template <typename E>
+E LStack<E>::pop() {
+	assert(top != NULL);
+	E it = top->element;
+	Link<E> * ltemp = top->next;
+	delete top;
+	top = ltemp;
+	--size;
+	return it;
+}
+
+template <typename E>
+int LStack<E>::length() const {
+	return size;
+}
+
+template <typename E>
+const E& topValue() const {
+	assert(top != 0);
+	return top->element;
+}
