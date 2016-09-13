@@ -1,6 +1,7 @@
 //------------------------------------------------
 // freelist version
 //********************************************** 
+#define NULL 0
 
 template <typename E>
 class Link {
@@ -11,7 +12,7 @@ public:
 	Link(const E& elemval, Link* nextval = NULL);
 	Link(Link* nextval = NULL);
 	
-	void* operator new(int size);
+	void* operator new(size_t size);
 	void operator delete(void* ptr);
 private:
 	static Link<E>* freelist;                  //若为list的成员，则是一种list对应一个freelist，
@@ -33,9 +34,9 @@ Link<E>::Link(Link<E> * nextval) {
 }
 
 template <typename E>
-void* Link<E>::operator new(int size) {
+void* Link<E>::operator new(size_t size) {
 	if (freelist == NULL)
-	return ::new LINK<E>;
+	return ::new Link<E>;
 	else {
 		Link<E>* temp = freelist;
 		freelist = freelist->next;
@@ -44,7 +45,7 @@ void* Link<E>::operator new(int size) {
 }
 
 template <typename E>
-void Link<E>::delete(void* ptr) {
+void Link<E>::operator delete(void* ptr) {
 	((Link<E>*)ptr)->next = freelist;
 	freelist = (Link<E>*)ptr;
 }
