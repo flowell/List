@@ -52,3 +52,35 @@ void Link<E>::delete(void* ptr) {
 
 //**********************************************************************************
 //----------------------------------------------------------------------------------
+
+
+
+
+
+//-----------------------------------------------------------
+//结点类的定义和声明 common version
+//***********************************************************
+/*
+template <typename E>
+class Link {
+public:
+	E element;
+	Link* next;
+
+	Link(const E& elemval, Link* nextval = NULL);
+	Link(Link* nextval = NULL);
+};
+
+template <typename E>
+Link<E>::Link(const E& elemval, Link<E>* nextval) {
+	element = elemval;
+	next = nextval;
+}
+
+template <typename E>
+Link<E>::Link(Link<E> * nextval) {
+	next = nextval;
+}
+*/
+//*****************************************************************
+//----------------------------------------------------------------
