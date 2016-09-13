@@ -1,0 +1,54 @@
+//------------------------------------------------
+// freelist version
+//********************************************** 
+
+template <typename E>
+class Link {
+public:
+	E element;
+	Link* next;
+
+	Link(const E& elemval, Link* nextval = NULL);
+	Link(Link* nextval = NULL);
+	
+	void* operator new(int size);
+	void operator delete(void* ptr);
+private:
+	static Link<E>* freelist;                  //若为list的成员，则是一种list对应一个freelist，
+};	                                           //若为link的成员，则是一种link对应一个freelist。
+                                                   //因为非list也可能使用到link结点，所以为link的成员更为合适！
+template <typename E>
+Link<E>* Link<E>::freelist = NULL;
+
+
+template <typename E>
+Link<E>::Link(const E& elemval, Link<E>* nextval) {
+	element = elemval;
+	next = nextval;
+}
+
+template <typename E>
+Link<E>::Link(Link<E> * nextval) {
+	next = nextval;
+}
+
+template <typename E>
+void* Link<E>::operator new(int size) {
+	if (freelist == NULL)
+	return ::new LINK<E>;
+	else {
+		Link<E>* temp = freelist;
+		freelist = freelist->next;
+		return temp;
+	}
+}
+
+template <typename E>
+void Link<E>::delete(void* ptr) {
+	((Link<E>*)ptr)->next = freelist;
+	freelist = (Link<E>*)ptr;
+}
+
+
+//**********************************************************************************
+//----------------------------------------------------------------------------------
