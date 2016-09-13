@@ -1,4 +1,3 @@
-//未debug！！！！
 template <typename E>
 class AStack : public Stack<E> {
 private:
@@ -46,11 +45,11 @@ void AStack<E>::push(const E& it) {
 template <typename E>
 E AStack<E>::pop() {
 	assert(top != 0);
-	return listArray[top--];
+	return listArray[--top];
 }
 
 template <typename E>
-int AStack<E>::length() const {
+int AStack<E>::length() const {               //因为top为元素个数，所以采用top++，--top的形式，即最底下不为空，最上面一个为空，零号位不为空
 	return top;
 }
 
