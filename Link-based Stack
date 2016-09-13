@@ -1,4 +1,6 @@
-//未debug
+#include "Stack ADT.h"
+#include <cassert>
+
 //--------------------------------------------------
 //**************************************************
 template <typename E>
@@ -33,11 +35,11 @@ private:
 	Link<E>* top;
 	int size;
 public:
-	LStack(int size = 1);
+	LStack();
 	~LStack();
 	
 	void clear();
-	void post(const E& it);
+	void push(const E& it);
 	
 	E pop();
 	
@@ -47,7 +49,7 @@ public:
 };
 
 template <typename E>
-LStack<E>::LStack(int size) {
+LStack<E>::LStack() {
 	top = NULL;
 	size = 0;
 }
@@ -90,7 +92,7 @@ int LStack<E>::length() const {
 }
 
 template <typename E>
-const E& topValue() const {
+const E& LStack<E>::topValue() const {
 	assert(top != 0);
 	return top->element;
 }
