@@ -9,7 +9,10 @@ Implementation of Array-based Queue.
 //---------------------------------------------------------------
 //Declaration of Array-based Queue.
 //***************************************************************
-#define defaultSize = 1
+#define defaultSize 1
+
+#include "Queue ADT.h"
+#include <cassert>
 
 template <typename E>
 class AQueue: public Queue<E> {
@@ -26,9 +29,9 @@ public:
 	void enqueue(const E& it);
 	E dequeue();
 	
-	int length() cosnt;                       //书上是virtual？？？
+	int length() const;                       //书上是virtual？？？
 	
-	const E& frontValue() cosnt;
+	const E& frontValue() const;
 };
 
 //***************************************************************
@@ -67,7 +70,7 @@ void AQueue<E>::enqueue(const E& it) {
 
 template <typename E>
 E AQueue<E>::dequeue() {
-	assert(length() != 0;
+	assert(length() != 0);
 	E it = listArray[front];
 	front = (front + 1) % maxSize;
 	return it;
@@ -75,13 +78,13 @@ E AQueue<E>::dequeue() {
 
 template <typename E>
 int AQueue<E>::length() const {                
-	return size;
+	return ((rear + maxSize) - front + 1) % maxSize;
 }
 
 template <typename E>
-const E& AQueue<E>::frontValue() cosnt {
-	assert( size != 0);
-	return front->next->element;
+const E& AQueue<E>::frontValue() const {
+	assert( length() != 0);
+	return listArray[front];
 }
 
 
