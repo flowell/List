@@ -1,0 +1,77 @@
+#include "Queue ADT.h"
+#include "Link.h"
+#include <cassert>
+
+template <typename E>
+class LQueue: public Queue<E> {
+private:
+	Link<E>* front;
+	Link<E>* rear;
+	int size;
+public:
+	LQueue();
+	~LQueue();
+
+	void clear();
+
+	void enqueue(const E& it);
+	E dequeue();
+
+	int length() const;
+
+	const E& frontValue() const;
+};
+
+template <typename E>
+LQueue<E>::LQueue() {
+	front = rear = new Link<E>;
+	size = 0;
+}
+
+template <typename E>
+LQueue<E>::~LQueue() {
+	clear();
+	delete front;
+}
+
+template <typename E>
+void LQueue<E>::clear() {
+	while(front->next != NULL) {
+		rear = front;
+		front = front->next;
+		delete rear;
+	}
+	rear = front;
+	size = 0;
+}
+
+template <typename E>
+void LQueue<E>::enqueue(const E& it) {
+	rear->next = new Link<E>(it, NULL);
+	rear = rear->next;
+	++size;
+}
+
+template <typename E>
+E LQueue<E>::dequeue() {
+	assert(size != 0);
+	E it = front->next->element;
+	Link<E>* ltemp = front->next;
+	front->next = ltemp->next;
+	if (rear == ltemp)
+		rear = front;
+	delete ltemp;
+	--size;
+	return it;
+}
+
+template <typename E>
+int LQueue<E>::length() const {
+	return size;
+}
+
+template <typename E>
+const E& LQueue<E>::frontValue() const {
+	assert(size != 0);
+	return front->next->element;
+}
